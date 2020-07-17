@@ -3,10 +3,10 @@ resource aws_ecs_task_definition "ecs" {
   execution_role_arn       = aws_iam_role.ecs_task_excution.arn
   task_role_arn            = try(var.task_role_arn, null)
   network_mode             = var.network_mode
-  cpu                      = var.requires_compatibilities == "FARGET" ? var.cpu : null
-  memory                   = var.requires_compatibilities == "FARGET" ? var.memory : null
+  cpu                      = var.cpu
+  memory                   = var.memory
   requires_compatibilities = var.requires_compatibilities
-  container_definitions    = <<EOT
+  container_definitions    = <<TASK_DEFINITION
 [
     {
       "name": "${var.name}",
@@ -21,8 +21,6 @@ resource aws_ecs_task_definition "ecs" {
             "protocol": "${var.protocol}"
             }
         ],
-        "entryPoint": ["${var.entry_point}"],
-        "command": ["${var.command}"],
         "logConfiguration": 
         {
             "logDriver": "awslogs",
@@ -35,5 +33,5 @@ resource aws_ecs_task_definition "ecs" {
         }
     }
 ]
-EOT
+TASK_DEFINITION
 }
