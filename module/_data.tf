@@ -6,7 +6,7 @@ data aws_ecs_cluster "ecs_cluster" {
 data aws_vpc "selected" {
   filter {
     name   = "tag:Name"
-    values = ["${local.workspace["name"]}-VPC"]
+    values = ["${local.workspace["env_name"]}-VPC"]
   }
 }
 
@@ -26,8 +26,4 @@ data aws_security_group "security_group" {
 
 data aws_ecr_repository "selected" {
   name = local.workspace["repository_name"]
-}
-
-data "aws_cloudwatch_log_group" "selected" {
-  name = local.workspace["awslogs_group"]
 }
